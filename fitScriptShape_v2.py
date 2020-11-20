@@ -85,7 +85,7 @@ os.system("python workspace_pi.py")
 os.system("root -l -q workspace.C")
 
 #combine cards
-os.system("combineCards.py " + datacardpassName + " " + datacardfailName + "datacard_jpsipi.txt >& datacard.txt")
+os.system("combineCards.py " + datacardpassName + " " + datacardfailName + " datacard_jpsipi.txt >& datacard.txt")
 
 '''
 #fit command

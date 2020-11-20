@@ -383,7 +383,7 @@ rate                                    {signal:.4f}           {bkg:.4f}
 -----------------------------------------------------------------------------------
 bkgNorm      rateParam     jpsipi              background      1.
 frac_k  param  {frac_k}    0.00762
-norm    rateParam          jpsipi              bc              1.
+mu_norm    rateParam          jpsipi              bc              1.
 '''.format(
          obs        = fulldata.numEntries(),
          signal     = (1.+0.079)*(mc_nsig_narrow.getVal() + mc_nsig_broad.getVal()), 
