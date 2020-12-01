@@ -2,17 +2,17 @@ import sys
 import os
 import datetime
 
-var = 'E_mu_canc'
-xmin = 0.2
-xmax = 4.8
-flag = 'v1_moreStat'
+var = 'tau'
+xmin = 0
+xmax = 0.7
+flag = 'v2'
 cut = '04'
 FRValue = 0.7910354
 production_tag = datetime.date.today().strftime('%Y%b%d')
 
 #for the jpsi pi 
-path_data = '/pnfs/psi.ch/cms/trivcat/store/user/friti/dataframes_2020Nov19/data_pichannel_sel1.root'
-path_pi = '/pnfs/psi.ch/cms/trivcat/store/user/friti/dataframes_2020Nov19/BcToXToJpsi_is_jpsi_pi_merged.root'
+path_data = '/pnfs/psi.ch/cms/trivcat/store/user/friti/dataframes_2020Nov26/data_ptmax_merged.root'
+path_pi = '/pnfs/psi.ch/cms/trivcat/store/user/friti/dataframes_2020Nov26/BcToXToJpsi_is_jpsi_pi_merged.root'
 
 #for rjpsi
 path_dir = var+ "_" + production_tag + "_cut"+cut
@@ -26,12 +26,13 @@ else:
     print("Directory already exists! ")
     sys.exit("WARNING: the folder "+ path_dir + " already exists!")
 
-passrootfileName =  var + "Pass_cut" + cut + ".root"
-os.system("cp "+ path_pyrk + "rootFiles/" + passrootfileName +" "+ path_dir + "/")
+passrootfileName =  "rootFiles/"+flag+"_cut"+cut+"/"+var + "Pass_cut" + cut + ".root"
+os.system("cp "+ path_pyrk + passrootfileName +" " + path_dir)
 print("Copied root File " + passrootfileName)
 
-failrootfileName = var + "Fail_cut" + cut + ".root"
-os.system("cp "+ path_pyrk + "rootFiles/" + failrootfileName +" " + path_dir+ "/")
+failrootfileName = "rootFiles/"+flag+"_cut"+cut+"/"+ var + "Fail_cut" + cut + ".root"
+os.system("cp "+ path_pyrk + failrootfileName+ " " + path_dir)
+print("cp "+ path_pyrk + failrootfileName+" " + path_dir)
 print("Copied root File " + failrootfileName)
 
 datacardfailName = "datacard_" + var + "_Fail.txt"
@@ -43,7 +44,7 @@ os.system("cp "+ path_pyrk + "datacards/datacard_" + var + "_Pass.txt " + path_d
 print("Copied datacard   datacard_" + var + "_Fail.txt" )
 
 #workspace
-fin = open("workspace_v2.C", "rt")
+fin = open("workspace.C", "rt")
 fout = open("%s/workspace.C"%(path_dir),"wt")
 for line in fin:
     if 'REPLACE' in line:
@@ -62,7 +63,7 @@ for line in fin:
 fout.close()
 fin.close()
 
-fin_pi = open("workspace_pi_v1.py", "rt")
+fin_pi = open("workspace_pi.py", "rt")
 fout_pi = open("%s/workspace_pi.py"%(path_dir),"wt")
 for line_pi in fin_pi:
     if 'REPLACE' in line_pi:
@@ -75,23 +76,27 @@ for line_pi in fin_pi:
 fout_pi.close()
 fin_pi.close()
 
-print("Created workspaces" )
+print("Created directory" )
 
 #entering the right directory
 os.chdir(path_dir)
 
 # create the workspaces
+print("Building the workspace jpsi pi...")
 os.system("python workspace_pi.py")
+print("Building the workspace rjpsi...")
 os.system("root -l -q workspace.C")
 
+print("Combining cards...")
 #combine cards
 os.system("combineCards.py " + datacardpassName + " " + datacardfailName + " datacard_jpsipi.txt >& datacard.txt")
 
-'''
+
+print("Fitting...")
 #fit command
 os.system("combine -M FitDiagnostics --plots --robustFit 1 --saveShapes --cminDefaultMinimizerStrategy 0 --saveNormalizations --maxFailedSteps 20 --saveWithUncertainties --robustHesse 1  --ignoreCovWarning datacard.txt")
 
-
+'''
 #yields
 os.system("python $CMSSW_BASE/src/HiggsAnalysis/CombinedLimit/test/mlfitNormsToText.py -u fitDiagnostics.root")
 output = os.popen("python $CMSSW_BASE/src/HiggsAnalysis/CombinedLimit/test/mlfitNormsToText.py -u fitDiagnostics.root").readlines()

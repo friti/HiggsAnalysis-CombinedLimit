@@ -30,7 +30,7 @@ void workspace(){
   RooDataHist mu_hist("mc_mu_CR","Mu observed",vars,mu_th1);
   wspace.import(mu_hist);
 
-  
+  /*
   TH1F*  mu_ctau_up_th1 = (TH1F*)fIn->Get("mu_ctau_UP");
   RooDataHist mu_hist_UP("mc_mu_ctauUp_CR","Mu observed",vars,mu_ctau_up_th1);
   wspace.import(mu_hist_UP);
@@ -46,7 +46,7 @@ void workspace(){
   TH1F*  tau_ctau_down_th1 = (TH1F*)fIn->Get("tau_ctau_DOWN");
   RooDataHist tau_hist_DOWN("mc_tau_ctauDown_CR","Mu observed",vars,tau_ctau_down_th1);
   wspace.import(tau_hist_DOWN);
-  
+  */
 
   TH1F*  tau_th1 = (TH1F*)fIn->Get("tau");
   RooDataHist tau_hist("mc_tau_CR","tau observed",vars,tau_th1);
@@ -75,11 +75,11 @@ void workspace(){
   TH1F*  psi2s_mu_th1 = (TH1F*)fIn->Get("psi2s_mu");
   RooDataHist psi2s_mu_hist("psi2s_mu_CR","tau observed",vars,psi2s_mu_th1);
   wspace.import(psi2s_mu_hist);
-
+  /*
   TH1F*  psi2s_tau_th1 = (TH1F*)fIn->Get("psi2s_tau");
   RooDataHist psi2s_tau_hist("psi2s_tau_CR","tau observed",vars,psi2s_tau_th1);
   wspace.import(psi2s_tau_hist);
-
+  */
 
 
   TH1F*  comb_th1 = (TH1F*)fIn->Get("comb");
@@ -142,7 +142,7 @@ void workspace(){
   RooDataHist mu_SRhist("mc_mu_SR","Mu observed",vars,mu_SRth1);
   wspace.import(mu_SRhist);
 
-
+  /*
   TH1F*  tau_ctau_up_SRth1 = (TH1F*)fInSR->Get("tau_ctau_UP");
   RooDataHist tau_histSR_UP("mc_tau_ctauUp_SR","Tau observed",vars,tau_ctau_up_SRth1);
   wspace.import(tau_histSR_UP);
@@ -161,7 +161,7 @@ void workspace(){
   TH1F*  tau_ctau_down_SRth1 = (TH1F*)fInSR->Get("tau_ctau_DOWN");
   RooDataHist tau_histSR_DOWN("mc_tau_ctauDown_SR","Tau observed",vars,tau_ctau_down_SRth1);
   wspace.import(tau_histSR_DOWN);
-  
+  */
 
   TH1F*  tau_SRth1 = (TH1F*)fInSR->Get("tau");
   RooDataHist tau_SRhist("mc_tau_SR","Tau observed",vars,tau_SRth1);
@@ -190,11 +190,11 @@ void workspace(){
   TH1F*  psi2s_mu_SRth1 = (TH1F*)fInSR->Get("psi2s_mu");
   RooDataHist psi2s_mu_SRhist("psi2s_mu_SR","tau observed",vars,psi2s_mu_SRth1);
   wspace.import(psi2s_mu_SRhist);
-
+  /*
   TH1F*  psi2s_tau_SRth1 = (TH1F*)fInSR->Get("psi2s_tau");
   RooDataHist psi2s_tau_SRhist("psi2s_tau_SR","tau observed",vars,psi2s_tau_SRth1);
   wspace.import(psi2s_tau_SRhist);
-
+  */
 
   TH1F*  comb_SRth1 = (TH1F*)fInSR->Get("comb");
   RooDataHist comb_SRhist("mc_comb_SR","Comb observed",vars,comb_SRth1);
@@ -253,5 +253,5 @@ void workspace(){
   // Clean up
   fOut->Close();
   fOut->Delete();
-  
+
 }
