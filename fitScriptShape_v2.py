@@ -2,17 +2,17 @@ import sys
 import os
 import datetime
 
-var = 'tau'
+var = 'm_miss_sq'
 xmin = 0
-xmax = 0.7
-flag = 'v2'
-cut = '04'
-FRValue = 0.7910354
+xmax = 9
+flag = 'v5'
+cut = '1'
+FRValue = 0.774791533164465
 production_tag = datetime.date.today().strftime('%Y%b%d')
 
 #for the jpsi pi 
-path_data = '/pnfs/psi.ch/cms/trivcat/store/user/friti/dataframes_2020Nov26/data_ptmax_merged.root'
-path_pi = '/pnfs/psi.ch/cms/trivcat/store/user/friti/dataframes_2020Nov26/BcToXToJpsi_is_jpsi_pi_merged.root'
+path_data = '/pnfs/psi.ch/cms/trivcat/store/user/friti/dataframes_2020Dec09/data_pichannel_sel1.root'
+path_pi = '/pnfs/psi.ch/cms/trivcat/store/user/friti/dataframes_2020Dec10/BcToXToJpsi_is_jpsi_pi_merged.root'
 
 #for rjpsi
 path_dir = var+ "_" + production_tag + "_cut"+cut
@@ -41,7 +41,7 @@ print("Copied datacard   datacard_" + var + "_Fail.txt" )
 
 datacardpassName = "datacard_" + var + "_Pass.txt"
 os.system("cp "+ path_pyrk + "datacards/datacard_" + var + "_Pass.txt " + path_dir+ "/")
-print("Copied datacard   datacard_" + var + "_Fail.txt" )
+print("Copied datacard   datacard_" + var + "_Pass.txt" )
 
 #workspace
 fin = open("workspace.C", "rt")
@@ -95,6 +95,7 @@ os.system("combineCards.py " + datacardpassName + " " + datacardfailName + " dat
 print("Fitting...")
 #fit command
 os.system("combine -M FitDiagnostics --plots --robustFit 1 --saveShapes --cminDefaultMinimizerStrategy 0 --saveNormalizations --maxFailedSteps 20 --saveWithUncertainties --robustHesse 1  --ignoreCovWarning datacard.txt")
+
 
 '''
 #yields

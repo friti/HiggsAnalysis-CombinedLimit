@@ -47,7 +47,7 @@ for fname in signal_files:
 #      Mass type: choose whether bare or post vertex fit
 ##########################################################################################
 # mass_type = 'Bmass'
-mass_type = 'fit_Bmass'
+mass_type = 'bvtx_fit_mass'
 
 ##########################################################################################
 #      Variables and PDFs
@@ -58,12 +58,12 @@ mu2pt  = ROOT.RooRealVar('mu2pt'       , 'mu2pt'               ,   0. , 1000. , 
 mu1eta = ROOT.RooRealVar('mu1eta'      , 'mu1eta'              , -10. ,   10. )
 mu2eta = ROOT.RooRealVar('mu2eta'      , 'mu2eta'              , -10. ,   10. )
 bpt    = ROOT.RooRealVar('Bpt'         , 'Bpt'                 ,   0. , 9000. )
-lxy    = ROOT.RooRealVar('Blxy'        , 'Blxy'                ,   0. , 9000. )
-lovers = ROOT.RooRealVar('Blxy_sig'    , 'Blxy_sig'            ,   0. , 9000. )
-svprob = ROOT.RooRealVar('Bsvprob'     , 'Bsvprob'             ,   0. ,    1. )
+lxy    = ROOT.RooRealVar('bvtx_lxy'        , 'bvtx_lxy'                ,   0. , 9000. )
+lovers = ROOT.RooRealVar('bvtx_lxy_sig'    , 'bvtx_lxy_sig'            ,   0. , 9000. )
+svprob = ROOT.RooRealVar('bvtx_svprob'     , 'bvtx_svprob'             ,   0. ,    1. )
 pipt   = ROOT.RooRealVar('kpt'         , 'kpt'                 ,   0. , 1000. , 'GeV')
 pieta  = ROOT.RooRealVar('keta'        , 'keta'                , -10. ,   10. )
-cos    = ROOT.RooRealVar('Bcos2D'      , 'Bcos2D'              ,   0. ,    1. )
+cos    = ROOT.RooRealVar('bvtx_cos2D'      , 'bvtx_cos2D'              ,   0. ,    1. )
 mu1id  = ROOT.RooRealVar('mu1_mediumID', 'mu1_mediumID'        ,   0. ,    2. )
 mu2id  = ROOT.RooRealVar('mu2_mediumID', 'mu2_mediumID'        ,   0. ,    2. )
 mu1dxy = ROOT.RooRealVar('mu1_dxy'     , 'mu1_dxy'             ,  -5. ,    5. , 'cm')
@@ -274,14 +274,14 @@ selection = ' & '.join([
 #     'mu2pt>3.5'             ,
     'Bpt>15'                ,
 #     'Blxy>0.01'             , # 100 micron
-    'Blxy_sig>3'            ,
+    'bvtx_lxy_sig>3'            ,
 #     'Bsvprob>0.005'         ,
-    'Bsvprob>0.001'         ,
+    'bvtx_svprob>0.001'         ,
 #     'Bsvprob>0.1'           ,
 #     'kpt>2'                 ,
     'kpt>3.5'               ,
     'abs(keta)<2.4'         ,
-    'Bcos2D>0.999'          ,
+    'bvtx_cos2D>0.999'          ,
     'mu1_mediumID>0.5'      ,
     'mu2_mediumID>0.5'      ,
     'abs(mu1_dz-mu2_dz)<0.4', 
