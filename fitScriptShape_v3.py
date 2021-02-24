@@ -1,24 +1,25 @@
 import sys
 import os
 import datetime
+import ROOT
 
+##### variable infos #####
 var = 'Q_sq'
-xmin = 0
-xmax = 12
-#flag = 'v5'
 cut = '1'
 FRValue = 0.774791533164465
-production_tag = datetime.date.today().strftime('%d%b%Y')
 
-#for the jpsi pi 
+##### input paths infos ####
+ref_date = "24Feb2021_10h48m20s"  
+personal_path_tools = "/work/friti/rjpsi_tools/CMSSW_10_6_14/src/RJpsiTools/plotting/plots_ul/"
+
+production_tag = datetime.datetime.now().strftime('%d%b%Y_%Hh%Mm%Ss')
+#for the jpsi pi fit
 path_data = '/pnfs/psi.ch/cms/trivcat/store/user/friti/dataframes_2020Dec09/data_pichannel_sel1.root'
 path_pi = '/pnfs/psi.ch/cms/trivcat/store/user/friti/dataframes_2020Dec10/BcToXToJpsi_is_jpsi_pi_merged.root'
 
 #for rjpsi
 path_dir = var+ "_" + production_tag + "_cut"+cut
-ref_date = "23Feb2021_13h24m45s"
-path_tools = "/work/friti/rjpsi_tools/CMSSW_10_6_14/src/RJpsiTools/plotting/plots_ul/"+ ref_date + "/datacards/"
-
+path_tools = personal_path_tools + ref_date + "/datacards/"
 if not os.path.exists(path_dir):
 # if there si already one it does not delete it
     os.makedirs(path_dir)
@@ -28,11 +29,15 @@ else:
     sys.exit("WARNING: the folder "+ path_dir + " already exists!")
 
 #link folder with plots
-os.system("ln -s " + path_tools.strip("/datacards/"))
-print("ln -s " + path_tools.strip("/datacards/")+" "+path_dir+"/"+ref_date)
 passrootfileName = "datacard_pass_"+var+".root"
 os.system("cp "+ path_tools  + passrootfileName +" " + path_dir)
 print("Copied root File " + passrootfileName)
+
+#take xmin and xmax automatically from histo
+f=ROOT.TFile(path_dir + "/" +passrootfileName,"r")
+his_d = f.Get("jpsi_tau")
+xmin = his_d.GetBinLowEdge(1)
+xmax = his_d.GetBinLowEdge(his_d.GetNbinsX() + 1)
 
 failrootfileName = "datacard_fail_"+var+".root"
 os.system("cp "+ path_tools  + failrootfileName +" " + path_dir)
@@ -46,6 +51,8 @@ print("Copied datacard " + datacardfailName )
 datacardpassName = "datacard_pass_" + var + ".txt"
 os.system("cp "+ path_tools + datacardpassName +" " + path_dir+ "/")
 print("Copied datacard " + datacardpassName )
+os.system("ln -s " + personal_path_tools +ref_date +" "+path_dir+"/"+ref_date)
+print("ln -s " + personal_path_tools +ref_date+" "+path_dir+"/"+ref_date)
 
 #workspace
 fin = open("workspace_v2.C", "rt")
